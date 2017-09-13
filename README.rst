@@ -5,8 +5,8 @@ ITKModuleTemplate
 .. image:: https://circleci.com/gh/LucasGandel/RTK.svg?style=shield
     :target: https://circleci.com/gh/LucasGandel/RTK
 
-.. image:: https://travis-ci.org/InsightSoftwareConsortium/ITKModuleTemplate.svg?branch=master
-    :target: https://travis-ci.org/InsightSoftwareConsortium/ITKModuleTemplate
+.. image:: https://travis-ci.org/LucasGandel/RTK.svg?branch=master
+    :target: https://travis-ci.org/LucasGandel/RTK
 
 .. image:: https://img.shields.io/appveyor/ci//LucasGandel/rtk.svg
     :target: https://ci.appveyor.com/project/LucasGandel/rtk
