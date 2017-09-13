@@ -11,7 +11,7 @@ except ImportError:
     sys.exit(1)
 
 setup(
-    name='itk-moduletemplate',
+    name='rtk',
     version='0.1.0',
     author='Insight Software Consortium',
     author_email='community@itk.org',
