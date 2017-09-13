@@ -2,8 +2,8 @@ ITKModuleTemplate
 =================
 
 
-.. image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKModuleTemplate.svg?style=shield
-    :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKModuleTemplate
+.. image:: https://circleci.com/gh/LucasGandel/RTK.svg?style=shield
+    :target: https://circleci.com/gh/LucasGandel/RTK
 
 .. image:: https://travis-ci.org/InsightSoftwareConsortium/ITKModuleTemplate.svg?branch=master
     :target: https://travis-ci.org/InsightSoftwareConsortium/ITKModuleTemplate
