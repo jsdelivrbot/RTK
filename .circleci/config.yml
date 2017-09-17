@@ -8,6 +8,16 @@ jobs:
       - checkout:
           path: ~/RTK
       - run:
+          name: Custom ITK config
+          command: |
+            cd /ITK-build \
+            && cmake .\
+              -G Ninja \
+              -DModule_ITKIOMINC:BOOL=ON \
+              . \
+            && ninja \
+            && cd ~/RTK-build
+      - run:
           name: Configure
           command: |
             cmake \
@@ -15,6 +25,8 @@ jobs:
               -DITK_DIR:PATH=/ITK-build \
               -DBUILD_TESTING:BOOL=ON \
               -DBUILDNAME:STRING=External-RTK-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM} \
+              -DRTK_USE_CUDA:BOOL=OFF \
+              -DCUDA_HAVE_GPU:BOOL=OFF \
                 ~/RTK
       - run:
           name: Build and Test
