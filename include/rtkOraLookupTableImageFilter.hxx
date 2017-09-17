@@ -22,6 +22,7 @@
 #include "rtkOraLookupTableImageFilter.h"
 
 #include <itkImageIOBase.h>
+#include <itkMetaDataObject.h>
 
 namespace rtk
 {
