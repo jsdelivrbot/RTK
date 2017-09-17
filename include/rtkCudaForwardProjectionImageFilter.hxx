@@ -19,6 +19,9 @@
 #ifndef rtkCudaForwardProjectionImageFilter_hxx
 #define rtkCudaForwardProjectionImageFilter_hxx
 
+//Conditional definition of the class to pass ITKHeaderTest
+#ifdef RTK_USE_CUDA
+
 #include "rtkCudaForwardProjectionImageFilter.h"
 #include "rtkCudaUtilities.hcu"
 #include "rtkCudaForwardProjectionImageFilter.hcu"
@@ -197,5 +200,7 @@ CudaForwardProjectionImageFilter<TInputImage,
 }
 
 } // end namespace rtk
+
+#endif //end conditional definition of the class
 
 #endif

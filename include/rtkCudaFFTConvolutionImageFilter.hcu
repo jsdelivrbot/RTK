@@ -19,6 +19,9 @@
 #ifndef __rtkCudaFFTConvolutionImageFilter_hcu
 #define __rtkCudaFFTConvolutionImageFilter_hcu
 
+//Conditional definition of the class to pass ITKHeaderTest
+#ifdef RTK_USE_CUDA
+
 #include <vector_types.h>
 #include <vector>
 #include "rtkWin32Header.h"
@@ -36,5 +39,7 @@ rtkcuda_EXPORT CUDA_padding(const int3 &paddingIndex,
                             float *deviceVolume,
                             float *devicePaddedVolume,
                             const std::vector<float> &mirrorWeights);
+
+#endif //end conditional definition of the class
 
 #endif

@@ -19,6 +19,9 @@
 #ifndef __rtkCudaCropImageFilter_hcu
 #define __rtkCudaCropImageFilter_hcu
 
+//Conditional definition of the class to pass ITKHeaderTest
+#ifdef RTK_USE_CUDA
+
 #include <vector_types.h>
 
 void
@@ -27,5 +30,7 @@ CUDA_crop(const long3 &cropIndex,
           const uint3 &inputSize,
           float *deviceVolume,
           float *deviceCroppedVolume);
+
+#endif //end conditional definition of the class
 
 #endif

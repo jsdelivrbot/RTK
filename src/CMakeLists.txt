@@ -1,7 +1,3 @@
-# Propagate cmake options in a header file
-configure_file(${RTK_SOURCE_DIR}/rtkConfiguration.h.in
-  ${RTK_BINARY_DIR}/rtkConfiguration.h)
-
 set(RTK_SRCS
   rtkConditionalMedianImageFilter.cxx
   rtkConvertEllipsoidToQuadricParametersFunction.cxx

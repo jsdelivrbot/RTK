@@ -29,6 +29,9 @@ if(NOT RTK_INSTALL_PACKAGE_DIR)
   set(RTK_INSTALL_PACKAGE_DIR "lib/cmake/RTK")
 endif()
 
+#Set position independent code for Unix (-fPIC)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 #=========================================================
 # lp_solve library
 #=========================================================
