@@ -19,9 +19,12 @@
 #ifndef rtkCudaBackProjectionImageFilter_h
 #define rtkCudaBackProjectionImageFilter_h
 
+#include "rtkConfiguration.h"
+//Conditional definition of the class to pass ITKHeaderTest
+#ifdef RTK_USE_CUDA
+
 #include "rtkBackProjectionImageFilter.h"
 #include "rtkWin32Header.h"
-
 #include <itkCudaImage.h>
 #include <itkCudaInPlaceImageFilter.h>
 
@@ -77,5 +80,7 @@ private:
 };
 
 } // end namespace rtk
+
+#endif //end conditional definition of the class
 
 #endif

@@ -19,6 +19,11 @@
 #ifndef __rtkCudaUtilities_hcu
 #define __rtkCudaUtilities_hcu
 
+#include "rtkConfiguration.h"
+
+//Conditional definition of the class to pass ITKHeaderTest
+#ifdef RTK_USE_CUDA
+
 #ifdef _WIN32
 # include <math.h>
 # define __CUDA_INTERNAL_COMPILATION__
@@ -108,5 +113,7 @@ inline __host__ __device__ float dot_vector(float3 u, float3 v)
 {
     return u.x*v.x + u.y*v.y + u.z*v.z;
 }
+
+#endif //end conditional definition of the class
 
 #endif

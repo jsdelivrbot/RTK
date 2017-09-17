@@ -19,9 +19,13 @@
 #ifndef rtkCudaConstantVolumeSeriesSource_h
 #define rtkCudaConstantVolumeSeriesSource_h
 
+#include "rtkConfiguration.h"
+//Conditional definition of the class to pass ITKHeaderTest
+#ifdef RTK_USE_CUDA
+
 #include "rtkConstantImageSource.h"
-#include <itkCudaImageToImageFilter.h>
 #include "rtkWin32Header.h"
+#include <itkCudaImageToImageFilter.h>
 
 namespace rtk
 {
@@ -68,5 +72,7 @@ private:
 }; // end of class
 
 } // end namespace rtk
+
+#endif //end conditional definition of the class
 
 #endif
