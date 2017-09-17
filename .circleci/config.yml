@@ -3,20 +3,10 @@ jobs:
   build-and-test:
     working_directory: ~/RTK-build
     docker:
-      - image: insighttoolkit/module-ci:latest
+      - image: lucasgandel/module-ci-iominc:latest
     steps:
       - checkout:
           path: ~/RTK
-      - run:
-          name: Custom ITK config
-          command: |
-            cd /ITK-build \
-            && cmake .\
-              -G Ninja \
-              -DModule_ITKIOMINC:BOOL=ON \
-              . \
-            && ninja \
-            && cd ~/RTK-build
       - run:
           name: Configure
           command: |
