@@ -17,6 +17,7 @@ jobs:
               -DBUILDNAME:STRING=External-RTK-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM} \
               -DRTK_USE_CUDA:BOOL=OFF \
               -DCUDA_HAVE_GPU:BOOL=OFF \
+              -DBUILD_APPLICATIONS:BOOL=OFF \
                 ~/RTK
       - run:
           name: Build and Test
