@@ -1,5 +1,4 @@
 #include "rtkMacro.h"
-#include "rtkConfiguration.h"
 #include "rtkTest.h"
 #include "itkRandomImageSource.h"
 #include "rtkConstantImageSource.h"
@@ -24,12 +23,12 @@
  * \author Cyril Mory
  */
 
-int rtkAdjointOperatorsTest(int argc, char * argv [] )
+int main(int, char** )
 {
   const unsigned int Dimension = 3;
   typedef float                                    OutputPixelType;
 
-#ifdef RTK_USE_CUDA
+#ifdef USE_CUDA
   typedef itk::CudaImage< OutputPixelType, Dimension > OutputImageType;
 #else
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
@@ -162,7 +161,7 @@ int rtkAdjointOperatorsTest(int argc, char * argv [] )
       CheckScalarProducts<OutputImageType, OutputImageType>(randomVolumeSource->GetOutput(), bp->GetOutput(), randomProjectionsSource->GetOutput(), fw->GetOutput());
       std::cout << "\n\nTest PASSED! " << std::endl;
 
-    #ifdef RTK_USE_CUDA
+    #ifdef USE_CUDA
       std::cout << "\n\n****** Cuda Ray Cast Forward projector ******" << std::endl;
 
       typedef rtk::CudaForwardProjectionImageFilter<OutputImageType, OutputImageType> CudaForwardProjectorType;

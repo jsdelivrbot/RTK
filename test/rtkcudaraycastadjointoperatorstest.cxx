@@ -2,41 +2,39 @@
 #include "rtkTest.h"
 #include "itkRandomImageSource.h"
 #include "rtkConstantImageSource.h"
-#include "rtkJosephBackProjectionImageFilter.h"
-#include "rtkJosephForwardProjectionImageFilter.h"
-#ifdef RTK_USE_CUDA
-  #include "rtkCudaForwardProjectionImageFilter.h"
-  #include "rtkCudaRayCastBackProjectionImageFilter.h"
-#endif
+#include "rtkCudaRayCastBackProjectionImageFilter.h"
+#include "rtkCudaForwardProjectionImageFilter.h"
 
 /**
- * \file rtkadjointoperatorstest.cxx
+ * \file rtkcudaraycastadjointoperatorstest.cxx
  *
- * \brief Tests whether forward and back projectors are matched
+ * \brief Tests whether CUDA ray cast forward and back projectors are matched
  *
  * This test generates a random volume "v" and a random set of projections "p",
- * and compares the scalar products <Rv , p> and <v, R* p>, where R is either the
- * Joseph forward projector or the Cuda ray cast forward projector,
- * and R* is either the Joseph back projector or the Cuda ray cast back projector.
- * If R* is indeed the adjoint of R, these scalar products are equal.
+ * and compares the scalar products <Rv , p> and <v, R* p>, where R is the 
+ * CUDA ray cast forward projector and R* is the CUDA ray cast back projector. If R* is indeed
+ * the adjoint of R, these scalar products are equal.
  *
  * \author Cyril Mory
  */
 
-int rtkAdjointOperatorsCudaTest(int argc, char * argv [] )
+int main(int, char** )
 {
   const unsigned int Dimension = 3;
   typedef float                                    OutputPixelType;
 
-
+#ifdef USE_CUDA
   typedef itk::CudaImage< OutputPixelType, Dimension > OutputImageType;
-
+#else
+  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+#endif
 
 #if FAST_TESTS_NO_CHECKS
   const unsigned int NumberOfProjectionImages = 3;
 #else
   const unsigned int NumberOfProjectionImages = 180;
 #endif
+
 
   // Random image sources
   typedef itk::RandomImageSource< OutputImageType > RandomImageSourceType;
@@ -52,6 +50,7 @@ int rtkAdjointOperatorsCudaTest(int argc, char * argv [] )
   RandomImageSourceType::PointType origin;
   RandomImageSourceType::SizeType size;
   RandomImageSourceType::SpacingType spacing;
+
 
   // Volume metadata
   origin[0] = -127.;
@@ -77,7 +76,6 @@ int rtkAdjointOperatorsCudaTest(int argc, char * argv [] )
   randomVolumeSource->SetSize( size );
   randomVolumeSource->SetMin( 0. );
   randomVolumeSource->SetMax( 1. );
-  randomVolumeSource->SetNumberOfThreads(2); //With 1, it's deterministic
 
   constantVolumeSource->SetOrigin( origin );
   constantVolumeSource->SetSpacing( spacing );
@@ -108,7 +106,6 @@ int rtkAdjointOperatorsCudaTest(int argc, char * argv [] )
   randomProjectionsSource->SetSize( size );
   randomProjectionsSource->SetMin( 0. );
   randomProjectionsSource->SetMax( 100. );
-  randomProjectionsSource->SetNumberOfThreads(2); //With 1, it's deterministic
 
   constantProjectionsSource->SetOrigin( origin );
   constantProjectionsSource->SetSpacing( spacing );
@@ -127,40 +124,45 @@ int rtkAdjointOperatorsCudaTest(int argc, char * argv [] )
   for(unsigned int noProj=0; noProj<NumberOfProjectionImages; noProj++)
     geometry->AddProjection(600., 1200., noProj*360./NumberOfProjectionImages);
 
-  for (unsigned int panel = 0; panel<2; panel++)
-    {
-    if (panel==0)
-      std::cout << "\n\n****** Testing with flat panel ******" << std::endl;
-    else
-      {
-      std::cout << "\n\n****** Testing with cylindrical panel ******" << std::endl;
-      geometry->SetRadiusCylindricalDetector(200);
-      }
+  std::cout << "\n\n****** CUDA ray cast Forward projector, flat panel detector ******" << std::endl;
 
+  typedef rtk::CudaForwardProjectionImageFilter<OutputImageType, OutputImageType> ForwardProjectorType;
+  ForwardProjectorType::Pointer fw = ForwardProjectorType::New();
+  fw->SetInput(0, constantProjectionsSource->GetOutput());
+  fw->SetInput(1, randomVolumeSource->GetOutput());
+  fw->SetGeometry( geometry );
+  TRY_AND_EXIT_ON_ITK_EXCEPTION( fw->Update() );
 
-      std::cout << "\n\n****** Cuda Ray Cast Forward projector ******" << std::endl;
+  std::cout << "\n\n****** CUDA ray cast Back projector, flat panel detector ******" << std::endl;
+  
+  typedef rtk::CudaRayCastBackProjectionImageFilter BackProjectorType;
+  BackProjectorType::Pointer bp = BackProjectorType::New();
+  bp->SetInput(0, constantVolumeSource->GetOutput());
+  bp->SetInput(1, randomProjectionsSource->GetOutput());
+  bp->SetGeometry( geometry.GetPointer() );
+  bp->SetNormalize(false);
+  
+  TRY_AND_EXIT_ON_ITK_EXCEPTION( bp->Update() );
 
-      typedef rtk::CudaForwardProjectionImageFilter<OutputImageType, OutputImageType> CudaForwardProjectorType;
-      CudaForwardProjectorType::Pointer cfw = CudaForwardProjectorType::New();
-      cfw->SetInput(0, constantProjectionsSource->GetOutput());
-      cfw->SetInput(1, randomVolumeSource->GetOutput());
-      cfw->SetGeometry( geometry );
-      TRY_AND_EXIT_ON_ITK_EXCEPTION( cfw->Update() );
+  CheckScalarProducts<OutputImageType, OutputImageType>(randomVolumeSource->GetOutput(), bp->GetOutput(), randomProjectionsSource->GetOutput(), fw->GetOutput());
+  std::cout << "\n\nTest PASSED! " << std::endl;
 
-      std::cout << "\n\n****** Cuda Ray Cast Back projector ******" << std::endl;
+  // Start over with cylindrical detector
+  geometry->SetRadiusCylindricalDetector(200);
+  std::cout << "\n\n****** CUDA ray cast Forward projector, cylindrical detector ******" << std::endl;
 
-      typedef rtk::CudaRayCastBackProjectionImageFilter CudaRayCastBackProjectorType;
-      CudaRayCastBackProjectorType::Pointer cbp = CudaRayCastBackProjectorType::New();
-      cbp->SetInput(0, constantVolumeSource->GetOutput());
-      cbp->SetInput(1, randomProjectionsSource->GetOutput());
-      cbp->SetGeometry( geometry.GetPointer() );
-      cbp->SetNormalize(false);
+  fw->SetGeometry( geometry );
+  TRY_AND_EXIT_ON_ITK_EXCEPTION( fw->Update() );
 
-      TRY_AND_EXIT_ON_ITK_EXCEPTION( cbp->Update() );
+  std::cout << "\n\n****** CUDA ray cast Back projector, cylindrical detector ******" << std::endl;
 
-      CheckScalarProducts<OutputImageType, OutputImageType>(randomVolumeSource->GetOutput(), cbp->GetOutput(), randomProjectionsSource->GetOutput(), cfw->GetOutput());
-      std::cout << "\n\nTest PASSED! " << std::endl;
-    }
+  bp->SetGeometry( geometry.GetPointer() );
+  bp->SetNormalize(false);
+
+  TRY_AND_EXIT_ON_ITK_EXCEPTION( bp->Update() );
+
+  CheckScalarProducts<OutputImageType, OutputImageType>(randomVolumeSource->GetOutput(), bp->GetOutput(), randomProjectionsSource->GetOutput(), fw->GetOutput());
+  std::cout << "\n\nTest PASSED! " << std::endl;
 
   return EXIT_SUCCESS;
 }
