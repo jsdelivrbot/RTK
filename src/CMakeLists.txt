@@ -1,10 +1,16 @@
 set(RTK_SRCS
   rtkConditionalMedianImageFilter.cxx
   rtkConvertEllipsoidToQuadricParametersFunction.cxx
+  rtkDbf.cxx
   rtkDCMImagXImageIO.cxx
   rtkDCMImagXImageIOFactory.cxx
+  rtkDigisensGeometryReader.cxx
+  rtkDigisensGeometryXMLFileReader.cxx
+  rtkDrawQuadricSpatialObject.cxx
   rtkEdfImageIO.cxx
   rtkEdfImageIOFactory.cxx
+  rtkElektaSynergyGeometryReader.cxx
+  rtkElektaXVI5GeometryXMLFile.cxx
   rtkGeometricPhantomFileReader.cxx
   rtkGlobalTimer.cxx
   rtkGlobalTimerProbesCollector.cxx
@@ -16,13 +22,23 @@ set(RTK_SRCS
   rtkImagXImageIOFactory.cxx
   rtkImagXXMLFileReader.cxx
   rtkIOFactories.cxx
+  rtkMedianImageFilter.cxx
+  rtkOraGeometryReader.cxx
+  rtkOraImageIO.cxx
+  rtkOraImageIOFactory.cxx
+  rtkOraXMLFileReader.cxx
+  rtkReg23ProjectionGeometry.cxx
   rtkThreeDCircularProjectionGeometry.cxx
   rtkThreeDCircularProjectionGeometryXMLFile.cxx
   rtkTimeProbesCollectorBase.cxx
+  rtkVarianObiGeometryReader.cxx
   rtkVarianObiXMLFileReader.cxx
+  rtkVarianProBeamGeometryReader.cxx
+  rtkVarianProBeamXMLFileReader.cxx
   rtkWatcherForTimer.cxx
   rtkXimImageIO.cxx
   rtkXimImageIOFactory.cxx
+  rtkXRadGeometryReader.cxx
   rtkXRadImageIO.cxx
   rtkXRadImageIOFactory.cxx
   )
@@ -32,21 +48,34 @@ set(RTK_SRCS
 #=========================================================
 if (RTK_USE_CUDA)
   set(RTK_CUDA_FILES
+    rtkCudaAverageOutOfROIImageFilter.cu
     rtkCudaBackProjectionImageFilter.cu
-	rtkCudaConstantVolumeSeriesSource.cu
-	rtkCudaConstantVolumeSource.cu
-	rtkCudaCropImageFilter.cu
-	rtkCudaCyclicDeformationImageFilter.cu
-	rtkCudaDisplacedDetectorImageFilter.cu
-	rtkCudaFDKBackProjectionImageFilter.cu
-	rtkCudaFDKWeightProjectionFilter.cu
-	rtkCudaFFTConvolutionImageFilter.cu
-	rtkCudaForwardProjectionImageFilter.cu
-	rtkCudaInterpolateImageFilter.cu
-	rtkCudaParkerShortScanImageFilter.cu
-	rtkCudaRayCastBackProjectionImageFilter.cu
-	rtkCudaSplatImageFilter.cu
-	rtkCudaUtilities.cu
+    rtkCudaConjugateGradientImageFilter_3f.cu
+    rtkCudaConjugateGradientImageFilter_4f.cu
+    rtkCudaConstantVolumeSeriesSource.cu
+    rtkCudaConstantVolumeSource.cu
+    rtkCudaCropImageFilter.cu
+    rtkCudaCyclicDeformationImageFilter.cu
+    rtkCudaDisplacedDetectorImageFilter.cu
+    rtkCudaFDKBackProjectionImageFilter.cu
+    rtkCudaFDKWeightProjectionFilter.cu
+    rtkCudaFFTConvolutionImageFilter.cu
+    rtkCudaFirstOrderKernels.cu
+    rtkCudaForwardProjectionImageFilter.cu
+    rtkCudaForwardWarpImageFilter.vu
+    rtkCudaInterpolateImageFilter.cu
+    rtkCudaLagCorrectionImageFilter.cu
+    rtkCudaLaplacianImageFilter.cu
+    rtkCudaLastDimensionTVDenoisingImageFilter.cu
+    rtkCudaParkerShortScanImageFilter.cu
+    rtkCudaPolynomialGainCorrectionImageFilter.cu
+    rtkCudaRayCastBackProjectionImageFilter.cu
+    rtkCudaSplatImageFilter.cu
+    rtkCudaTotalVariationDenoisingBPDQImageFilter.cxx
+    rtkCudaUtilities.cu
+    rtkCudaWarpBackProjectionImageFilter.cu
+    rtkCudaWarpForwardProjectionImageFilter.cu
+    rtkCudaWarpImageFilter.cu
     )
 
   set(CUDA_PROPAGATE_HOST_FLAGS ON)
@@ -54,20 +83,32 @@ if (RTK_USE_CUDA)
   CUDA_COMPILE(RTK_CUDA_WRAPPERS ${RTK_CUDA_FILES})
 
   set(RTK_SRCS ${RTK_SRCS}
-	rtkCudaBackProjectionImageFilter.cxx
-	rtkCudaConstantVolumeSeriesSource.cxx
-	rtkCudaConstantVolumeSource.cxx
-	rtkCudaCropImageFilter.cxx
-	rtkCudaCyclicDeformationImageFilter.cxx
-	rtkCudaDisplacedDetectorImageFilter.cxx
-	rtkCudaFDKBackProjectionImageFilter.cxx
-	rtkCudaFDKConeBeamReconstructionFilter.cxx
-	rtkCudaFDKWeightProjectionFilter.cxx
-	rtkCudaInterpolateImageFilter.cxx
-	rtkCudaIterativeFDKConeBeamReconstructionFilter.cxx
-	rtkCudaParkerShortScanImageFilter.cxx
-	rtkCudaRayCastBackProjectionImageFilter.cxx
-	rtkCudaSplatImageFilter.cxx
+    rtkCudaAverageOutOfROIImageFilter.cxx
+    rtkCudaBackProjectionImageFilter.cxx
+    rtkCudaConjugateGradientImageFilter_3f.cxx
+    rtkCudaConjugateGradientImageFilter_4f.cxx
+    rtkCudaConstantVolumeSeriesSource.cxx
+    rtkCudaConstantVolumeSource.cxx
+    rtkCudaCropImageFilter.cxx
+    rtkCudaCyclicDeformationImageFilter.cxx
+    rtkCudaDisplacedDetectorImageFilter.cxx
+    rtkCudaFDKBackProjectionImageFilter.cxx
+    rtkCudaFDKConeBeamReconstructionFilter.cxx
+    rtkCudaFDKWeightProjectionFilter.cxx
+    rtkCudaForwardWarpImageFilter.cxx
+    rtkCudaInterpolateImageFilter.cxx
+    rtkCudaIterativeFDKConeBeamReconstructionFilter.cxx
+    rtkCudaLagCorrectionImageFilter.cxx
+    rtkCudaLaplacianImageFilter.cxx
+    rtkCudaLastDimensionTVDenoisingImageFilter.cxx
+    rtkCudaParkerShortScanImageFilter.cxx
+    rtkCudaPolynomialGainCorrectionImageFilter.cxx
+    rtkCudaRayCastBackProjectionImageFilter.cxx
+    rtkCudaSplatImageFilter.cxx
+    rtkCudaTotalVariationDenoisingBPDQImageFilter.cxx
+    rtkCudaWarpBackProjectionImageFilter.cxx
+    rtkCudaWarpForwardProjectionImageFilter.cxx
+    rtkCudaWarpImageFilter.cxx
     ${RTK_CUDA_WRAPPERS}
     ${RTK_CUDA_FILES})
 endif ()
