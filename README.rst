@@ -8,7 +8,7 @@ ITKModuleTemplate
 .. image:: https://travis-ci.org/LucasGandel/RTK.svg?branch=master
     :target: https://travis-ci.org/LucasGandel/RTK
 
-.. image:: https://img.shields.io/appveyor/ci//LucasGandel/rtk.svg
+.. image:: https://img.shields.io/appveyor/ci/LucasGandel/rtk.svg
     :target: https://ci.appveyor.com/project/LucasGandel/rtk
 
 This is a module for the `Insight Toolkit (ITK) <http://itk.org>`_ for
