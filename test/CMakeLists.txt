@@ -256,5 +256,5 @@ rtk_add_test(rtkArgsInfoManagerTest rtkargsinfomanagertest.cxx)
 rtk_add_test(rtkGeometryFromMatrixTest rtkgeometryfrommatrixtest.cxx)
 
 rtk_add_test(rtkOraTest rtkoratest.cxx
-  DATA{Data/Input/Ora/0_afterLog.ora.xml,0_afterLog.mhd,0_afterLog.raw}
-  DATA{Data/Baseline/Ora/geometry.xml,attenuation.mha})
+  DATA{Input/Ora/0_afterLog.ora.xml,0_afterLog.mhd,0_afterLog.raw}
+  DATA{Baseline/Ora/geometry.xml,attenuation.mha})
