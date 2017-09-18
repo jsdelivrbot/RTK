@@ -68,13 +68,13 @@ rtk_add_cuda_test(rtkCropFilterCudaTest rtkcroptest.cxx)
 rtk_add_test(rtkMotionCompensatedFDKTest rtkmotioncompensatedfdktest.cxx)
 
 rtk_add_cuda_test(rtkDisplacedDetectorCudaTest rtkdisplaceddetectortest.cxx)
-rtk_add_cuda_test(rtkDisplacedDetectorCudaComp rtkdisplaceddetectorcompcudatest.cxx)
+rtk_add_cuda_test(rtkDisplacedDetectorCompCudaTest rtkdisplaceddetectorcompcudatest.cxx)
 
 rtk_add_test(rtkDisplacedDetectorCompOffsetTest rtkdisplaceddetectorcompoffsettest.cxx)
 
 rtk_add_test(rtkShortScanTest rtkshortscantest.cxx)
 rtk_add_cuda_test(rtkShortScanCudaTest rtkshortscantest.cxx)
-rtk_add_cuda_test(rtkShortScanComp rtkshortscancompcudatest.cxx)
+rtk_add_cuda_test(rtkShortScanCompCudaTest rtkshortscancompcudatest.cxx)
 
 rtk_add_test(rtkRampFilterTest rtkrampfiltertest.cxx)
 rtk_add_cuda_test(rtkRampFilterCudaTest rtkrampfiltertest.cxx)
@@ -105,7 +105,7 @@ rtk_add_cuda_test(rtkForwardProjectionCudaTest rtkforwardprojectiontest.cxx)
 
 rtk_add_test(rtkGeometryFileTest rtkgeometryfiletest.cxx)
 
-rtk_add_test(rtkTestReg23ProjectionGeometry rtkTestReg23ProjectionGeometry.cxx)
+rtk_add_test(rtkReg23ProjectionGeometryTest rtkTestReg23ProjectionGeometry.cxx)
 
 rtk_add_test(rtkFOVTest rtkfovtest.cxx)
 
@@ -130,7 +130,7 @@ rtk_add_test(rtkAmsterdamShroudTest rtkamsterdamshroudtest.cxx
   DATA{Baseline/AmsterdamShroud/Amsterdam_crop.mha}
   DATA{Baseline/AmsterdamShroud/Amsterdam.mha})
 
-rtk_add_test(rtkVariantest rtkvariantest.cxx
+rtk_add_test(rtkVarianTest rtkvariantest.cxx
   DATA{Input/Varian/raw.hnd,acqui.xml,Proj_00000.xim,acqui_probeam.xml}
   DATA{Baseline/Varian/attenuation.mha,geometry.xml,attenuationProBeam.mha,geometryProBeam.xml})
 
@@ -190,12 +190,12 @@ rtk_add_cuda_test(rtkAdjointOperatorsCudaTest rtkadjointoperatorstest.cxx)
 rtk_add_test(rtkFourDAdjointOperatorsTest rtkfourdadjointoperatorstest.cxx
   DATA{Input/Phases/phases_slow.txt})
 
-rtk_add_test(rtkinterpolatesplatadjointtest rtkinterpolatesplatadjointtest.cxx
+rtk_add_test(rtkInterpolateSplatAdjointTest rtkinterpolatesplatadjointtest.cxx
   DATA{Input/Phases/phases_slow.txt})
 
 rtk_add_test(rtkLaplacianTest rtklaplaciantest.cxx
   DATA{Baseline/Laplacian/Laplacian.mha})
-rtk_add_cuda_test(rtklaplacian rtklaplaciantest.cxx
+rtk_add_cuda_test(rtkLaplacianCudaTest rtklaplaciantest.cxx
   DATA{Baseline/Laplacian/Laplacian.mha})
 
 rtk_add_test(rtkTotalVariationTest rtktotalvariationtest.cxx)
@@ -205,7 +205,7 @@ rtk_add_test(rtkGradientTest rtkgradienttest.cxx)
 rtk_add_test(rtkDivergenceTest rtkdivergencetest.cxx)
 
 rtk_add_test(rtkLagCorrectionTest rtklagcorrectiontest.cxx)
-rtk_add_cuda_test(rtkLagCorrection rtklagcorrectiontest.cxx)
+rtk_add_cuda_test(rtkLagCorrectionCudaTest rtklagcorrectiontest.cxx)
 
 rtk_add_test(rtkConjugateGradientTest rtkconjugategradienttest.cxx)
 
@@ -245,7 +245,7 @@ rtk_add_cuda_test(rtkADMMTotalVariationCudaTest rtkadmmtotalvariationtest.cxx
   DATA{Input/Phases/phases.txt}
   Data{Input/Phases/phases_3projs.txt})
 rtk_add_cuda_test(rtkRegularizedConjugateGradientCudaTest rtkregularizedconjugategradienttest.cxx)
-rtk_add_cuda_test(rtkCudaRaycastAdjointOperatorsTest rtkcudaraycastadjointoperatorstest.cxx)
+rtk_add_cuda_test(rtkCudaRaycastAdjointOperatorsCudaTest rtkcudaraycastadjointoperatorstest.cxx)
 rtk_add_cuda_test(rtkCyclicDeformationCudaTest rtkcyclicdeformationtest.cxx)
 
 rtk_add_test(rtkWaveletsTest rtkwaveletstest.cxx)
