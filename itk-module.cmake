@@ -26,10 +26,12 @@ set(RTK_IO_DEPENDS
 
 set(RTK_DEPENDS
   ITKCommon
-  ITKConvolution #rtkamsterdamshroud.exe
+  ITKConvolution
   ITKFFT
   ITKImageIntensity
-  ITKSmoothing   #rtkamsterdamshroud.exe
+  ITKOptimizers
+  ITKRegistrationCommon
+  ITKSmoothing
   ITKThresholding
   ITKTransform
   ITKVNL
