@@ -62,7 +62,7 @@ if (RTK_USE_CUDA)
     rtkCudaFFTConvolutionImageFilter.cu
     rtkCudaFirstOrderKernels.cu
     rtkCudaForwardProjectionImageFilter.cu
-    rtkCudaForwardWarpImageFilter.vu
+    rtkCudaForwardWarpImageFilter.cu
     rtkCudaInterpolateImageFilter.cu
     rtkCudaLagCorrectionImageFilter.cu
     rtkCudaLaplacianImageFilter.cu
@@ -71,7 +71,7 @@ if (RTK_USE_CUDA)
     rtkCudaPolynomialGainCorrectionImageFilter.cu
     rtkCudaRayCastBackProjectionImageFilter.cu
     rtkCudaSplatImageFilter.cu
-    rtkCudaTotalVariationDenoisingBPDQImageFilter.cxx
+    rtkCudaTotalVariationDenoisingBPDQImageFilter.cu
     rtkCudaUtilities.cu
     rtkCudaWarpBackProjectionImageFilter.cu
     rtkCudaWarpForwardProjectionImageFilter.cu
