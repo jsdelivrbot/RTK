@@ -1,6 +1,3 @@
-configure_file (${CMAKE_CURRENT_SOURCE_DIR}/rtkTestConfiguration.h.in
-  ${RTK_BINARY_DIR}/rtkTestConfiguration.h)
-
 #-----------------------------------------------------------------------------
 # Set RTK_DATA_ROOT
 # WARNING: Some tests (such as rtkamsterdamshroudtest) use this variable
@@ -8,6 +5,9 @@ configure_file (${CMAKE_CURRENT_SOURCE_DIR}/rtkTestConfiguration.h.in
 # TODO :Send filenames as argument to the test executable.
 set(RTK_DATA_ROOT ${CMAKE_BINARY_DIR}/ExternalData/test CACHE PATH "Path of the data root")
 mark_as_advanced(RTK_DATA_ROOT)
+
+configure_file (${CMAKE_CURRENT_SOURCE_DIR}/rtkTestConfiguration.h.in
+  ${RTK_BINARY_DIR}/rtkTestConfiguration.h)
 
 #-----------------------------------------------------------------------------
 # The subdirectories added below this line should use only the public
